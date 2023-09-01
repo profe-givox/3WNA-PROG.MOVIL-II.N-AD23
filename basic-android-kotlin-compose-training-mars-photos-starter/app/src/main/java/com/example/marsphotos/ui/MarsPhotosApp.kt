@@ -54,7 +54,9 @@ fun MarsPhotosApp() {
                 viewModel(factory = MarsViewModel.Factory)
 
             HomeScreen(
-                marsUiState = marsViewModel.marsUiState)
+                marsUiState = marsViewModel.marsUiState,
+                marsViewModel::getMarsPhotos
+                )
         }
     }
 }
