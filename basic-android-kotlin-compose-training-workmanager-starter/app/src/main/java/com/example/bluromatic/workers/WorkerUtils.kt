@@ -88,7 +88,7 @@ fun makeStatusNotification(message: String, context: Context) {
  * @return Blurred bitmap image
  */
 @WorkerThread
-fun blurBitmap(bitmap: Bitmap, blurLevel: Int): Bitmap {
+fun  blurBitmap(bitmap: Bitmap, blurLevel: Int): Bitmap {
     val input = Bitmap.createScaledBitmap(
         bitmap,
         bitmap.width/(blurLevel*5),
