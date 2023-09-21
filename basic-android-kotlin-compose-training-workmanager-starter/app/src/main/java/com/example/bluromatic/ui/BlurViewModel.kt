@@ -16,14 +16,21 @@
 
 package com.example.bluromatic.ui
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.bluromatic.BluromaticApplication
+import com.example.bluromatic.KEY_IMAGE_URI
 import com.example.bluromatic.data.BlurAmountData
 import com.example.bluromatic.data.BluromaticRepository
+import com.example.bluromatic.workers.BlurWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -32,6 +39,12 @@ import kotlinx.coroutines.flow.StateFlow
  * visibility states of the buttons depending on the states of the WorkManger.
  */
 class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : ViewModel() {
+
+
+
+    private val workManager = WorkManager.getInstance( )
+
+
 
     internal val blurAmount = BlurAmountData.blurAmount
 
@@ -43,8 +56,27 @@ class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : Vi
      * @param blurLevel The amount to blur the image
      */
     fun applyBlur(blurLevel: Int) {
+        /*val blurRequest = OneTimeWorkRequestBuilder<BlurWorker>()
+            .setInputData(createInputDataForUri())
+            .build()
+
+        workManager.enqueue(blurRequest)*/
         bluromaticRepository.applyBlur(blurLevel)
     }
+
+    /**
+     * Creates the input data bundle which includes the Uri to operate on
+     * @return Data which contains the Image Uri as a String
+     */
+    private fun createInputDataForUri(): Data {
+        val builder = Data.Builder()
+        lateinit var imageUri :  Uri
+        imageUri?.let {
+            builder.putString(KEY_IMAGE_URI, imageUri.toString())
+        }
+        return builder.build()
+    }
+
 
     /**
      * Factory for [BlurViewModel] that takes [BluromaticRepository] as a dependency
