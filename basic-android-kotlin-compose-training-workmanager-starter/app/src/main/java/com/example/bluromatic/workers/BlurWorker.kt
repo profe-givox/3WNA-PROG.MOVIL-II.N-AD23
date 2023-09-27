@@ -21,12 +21,11 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
      private val DELAY_TIME_MILLIS: Long = 2000
 
     override suspend fun doWork(): Result {
-
-        val appContext = applicationContext
-
         // ADD THIS LINE
         val resourceUri = inputData.getString(KEY_IMAGE_URI)
         val blurLevel = inputData.getInt(KEY_BLUR_LEVEL, 1)
+        Log.d("NeedUri", resourceUri.toString());
+        val appContext = applicationContext
 
         makeStatusNotification(
             appContext.resources.getString(R.string.blurring_image),
@@ -34,6 +33,8 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
         )
 
         return withContext(Dispatchers.IO) {
+
+            //delay(DELAY_TIME_MILLIS)
 
             return@withContext  try {
                 // NEW code
@@ -51,7 +52,7 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
             )*/
 
                 // This is a utility function added to emulate slower work.
-                delay(DELAY_TIME_MILLIS)
+
 
 
                 if (TextUtils.isEmpty(resourceUri)) {
@@ -72,13 +73,13 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
                 // Write bitmap to a temp file
                 val outputUri = writeBitmapToFile(applicationContext, output)
 
-                /*makeStatusNotification(
+/*                makeStatusNotification(
                     "Output is $outputUri",
                     applicationContext
                 )*/
 
                 val outputData = workDataOf(KEY_IMAGE_URI to outputUri.toString())
-
+                Log.d("HMA", output.toString())
                 Result.success(outputData)
             } catch (throwable: Throwable) {
                 Log.e(
