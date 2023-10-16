@@ -23,7 +23,7 @@ plugins {
 
 android {
     namespace = "com.example.juicetracker"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.juicetracker"
@@ -53,10 +53,25 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        // Enable Jetpack Compose for this module
+        compose = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+
 }
 
 dependencies {
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    // other dependencies
+    // Compose
+    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.compose.material3:material3")
+    implementation("com.google.accompanist:accompanist-themeadapter-material3:0.28.0")
+
+    implementation("androidx.emoji2:emoji2-views-helper:1.4.0")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.core:core-ktx:1.10.1")
@@ -71,5 +86,6 @@ dependencies {
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.compose.ui:ui-tooling-preview-android:1.5.3")
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
 }
