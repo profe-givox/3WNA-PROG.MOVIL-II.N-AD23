@@ -22,7 +22,7 @@ fun RatingInputRow(rating:Int, onRatingChange: (Int) -> Unit, modifier: Modifier
                 ratingBar.setOnRatingBarChangeListener { _, _, _ ->
                     onRatingChange(ratingBar.rating.toInt())
                 }
-                val lis = object : OnRatingBarChangeListener{
+                /*val lis = object : OnRatingBarChangeListener{
                     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
                         onRatingChange(ratingBar.rating.toInt())
                     }
@@ -37,7 +37,7 @@ fun RatingInputRow(rating:Int, onRatingChange: (Int) -> Unit, modifier: Modifier
                          }
 
                      }
-                )
+                )*/
             }
         )
     }
